@@ -70,6 +70,7 @@ redshift_database = tu_base_de_datos_redshift
 ```
 
 ### Ejecución del proyecto
+Antes de ejecutar el script principal, asegúrate de modificar la variable `schema` presente en el mismo, reemplazándola por un esquema presente en tu DataWarehouse en AWS Redshift. 
 
 Ejecuta el script principal
 

@@ -37,7 +37,7 @@ spotify_project/
 - Clona el repositorio
 
 ```
-git clone https://github.com/cristobalqv/Spotify_popularidad_por_artista
+git clone https://github.com/cristobalqv/Spotify_popularidad_por_artista.git
 cd spotify_project
 ```
 

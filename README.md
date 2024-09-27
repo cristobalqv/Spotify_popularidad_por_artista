@@ -17,11 +17,12 @@ Este proyecto permite la extracción, transformación y carga (ETL) de datos de 
 ```
 spotify_project/
 │
-├── venv/                           # Entorno virtual
+├── venv/                        # Entorno virtual
 │      ├── modulos/
 │      │       └── utils.py       # Funciones ETL
 │      ├── script/
 │      │       └── main.py      # Script principal que ejecuta el proceso ETL
+│      ├── varios/                 # información de apoyo
 │      ├── requirements.txt       # Librerías necesarias
 │      └── README.md             # Este archivo
 └── .env                       # Configuración con credenciales (fuera de venv)

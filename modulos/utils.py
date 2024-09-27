@@ -184,7 +184,7 @@ class CargaAWS:
                 for index, row in dataframe.iterrows():
                     fecha = row['fecha']
                     pais = row['pais']
-                    nombre_cancion = row['nombre_cancion'].replace("'", "")   #eliminamos comillas simples
+                    nombre_cancion = row['nombre_cancion'].replace("'", "")   #eliminamos comillas simples para que no haya incompatibilidades 
                     artista = row['artista'].replace("'", "")
                     popularidad = row['popularidad']
                     id_ = row['id']

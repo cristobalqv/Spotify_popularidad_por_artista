@@ -3,7 +3,7 @@
 [![](https://github.com/cristobalqv/Spotify_popularidad_por_artista/blob/main/varios/spotify%20python.png)](https://github.com/cristobalqv/Spotify_popularidad_por_artista/blob/main/varios/spotify%20python.png)
 
 ### Descripción
-Este proyecto permite la extracción, transformación y carga (ETL) de datos de popularidad de canciones en países de Latinoamérica, usando la API de Spotify y Amazon Redshift como base de datos. El objetivo principal es analizar la popularidad de los artistas y canciones de forma diaria, almacenando los resultados en AWS Redshift para su posterior análisis.
+Este proyecto permite la extracción, transformación y carga (ETL) de datos de popularidad de canciones en países hispanohablantes de Latinoamérica, usando la API de Spotify y Amazon Redshift como base de datos. El objetivo principal es analizar la popularidad de los artistas y canciones de forma diaria, almacenando los resultados en AWS Redshift para su posterior análisis.
 
 ### Tecnologías utilizadas
 - Python: Lenguaje de programación principal.

@@ -33,6 +33,7 @@ x-airflow-common:
     postgres:
       condition: service_healthy
 
+
 services:
   postgres:
     image: postgres:13
@@ -49,6 +50,7 @@ services:
       start_period: 5s
     restart: always
 
+
   redis:
     image: redis:7.2-bookworm
     expose:
@@ -60,6 +62,7 @@ services:
       retries: 50
       start_period: 30s
     restart: always
+
 
   airflow-webserver:
     <<: *airflow-common
@@ -77,6 +80,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    env_file:
+      - .env
 
   airflow-scheduler:
     <<: *airflow-common
@@ -92,12 +97,14 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    env_file:
+      - .env
+
 
   airflow-worker:
     <<: *airflow-common
     command: celery worker
     healthcheck:
-      # yamllint disable rule:line-length
       test:
         - "CMD-SHELL"
         - 'celery --app airflow.providers.celery.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}" || celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
@@ -107,14 +114,15 @@ services:
       start_period: 30s
     environment:
       <<: *airflow-common-env
-      # Required to handle warm shutdown of the celery workers properly
-      # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
       DUMB_INIT_SETSID: "0"
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    env_file:
+      - .env
+
 
   airflow-triggerer:
     <<: *airflow-common
@@ -130,11 +138,13 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    env_file:
+      - .env
+
 
   airflow-init:
     <<: *airflow-common
     entrypoint: /bin/bash
-    # yamllint disable rule:line-length
     command:
       - -c
       - |
@@ -183,7 +193,6 @@ services:
         mkdir -p /sources/logs /sources/dags /sources/plugins
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
         exec /entrypoint airflow version
-    # yamllint enable rule:line-length
     environment:
       <<: *airflow-common-env
       _AIRFLOW_DB_MIGRATE: 'true'
@@ -194,6 +203,9 @@ services:
     user: "0:0"
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}:/sources
+    env_file:
+      - .env
+
 
   airflow-cli:
     <<: *airflow-common
@@ -202,15 +214,15 @@ services:
     environment:
       <<: *airflow-common-env
       CONNECTION_CHECK_MAX_COUNT: "0"
-    # Workaround for entrypoint issue. See: https://github.com/apache/airflow/issues/16252
+
     command:
       - bash
       - -c
       - airflow
+    env_file:
+      - .env
 
-  # You can enable flower by adding "--profile flower" option e.g. docker-compose --profile flower up
-  # or by explicitly targeted on the command line e.g. docker-compose up flower.
-  # See: https://docs.docker.com/compose/profiles/
+
   flower:
     <<: *airflow-common
     command: celery flower
@@ -229,6 +241,17 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    env_file:
+      - .env
+
+
+  python-service:
+    container_name: python-service
+    build: .
+    env_file:
+      - .env
+    command: tail -f /dev/null
+
 
 volumes:
   postgres-db-volume:
